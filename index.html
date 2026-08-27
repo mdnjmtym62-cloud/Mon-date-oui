@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dis Oui - Invitation interactive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f6f2ec;
+      --card-bg: #ffffff;
+      --primary-color: #531225;
+      --primary-hover: #3d0c1b;
+      --text-dark: #2b2225;
+      --text-muted: #8c7b7d;
+      --border-color: #e5dec9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    /* EN-TÊTE LOGO */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--primary-color);
+    }
+
+    /* CARTE PRINCIPALE */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(83, 18, 37, 0.04);
+      text-align: center;
+      position: relative;
+    }
+
+    .subtitle-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    h1.title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      line-height: 1.2;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    p.description {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 25px;
+    }
+
+    /* FORMULAIRE DE CRÉATION */
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #dcd4c6;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #faf8f5;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--primary-color);
+      background: #ffffff;
+    }
+
+    /* BOUTONS */
+    .btn-primary {
+      width: 100%;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      border: none;
+      padding: 15px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-dark);
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* ZONE DE PARTAGE DU LIEN */
+    .link-result {
+      display: none;
+      margin-top: 20px;
+      background: #faf8f5;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px dashed var(--border-color);
+    }
+
+    /* ENVELOPPE ET ANIMATION */
+    .envelope-box {
+      cursor: pointer;
+      padding: 20px 0;
+    }
+    .envelope {
+      width: 160px;
+      height: 105px;
+      background: #f1ebd9;
+      margin: 0 auto 20px auto;
+      position: relative;
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
+    }
+    .envelope:hover {
+      transform: translateY(-3px);
+    }
+    .envelope-seal {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* BOUTONS OUI / NON */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      min-height: 60px;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .btn-yes {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 36px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .btn-no {
+      background-color: transparent;
+      color: #666;
+      border: 1px solid #dcd4c6;
+      padding: 12px 28px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      position: absolute;
+      transition: all 0.15s ease-out;
+    }
+
+    .funny-text {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      min-height: 20px;
+    }
+
+    .plan-box {
+      background: #faf8f5;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .plan-item {
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    /* GESTION DES AFFICHAGES DES ÉTAPES */
+    .view-section {
+      display: none;
+    }
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="brand-header">
+      <div class="brand-name">Dis Oui</div>
+    </div>
+
+    <div id="creator-view" class="view-section card active">
+      <div class="subtitle-tag">Invitations qu'on ne refuse pas</div>
+      <h1 class="title">Demande-lui.<br>Elle ne pourra pas dire non.</h1>
+      <p class="description">Crée ton invitation animée gratuite en 1 minute. Le bouton « Non » s'enfuit.</p>
+
+      <form id="inviteForm" onsubmit="generateLink(event)">
+        <div class="form-group">
+          <label>Prénom du destinataire</label>
+          <input type="text" id="inputTo" class="form-control" placeholder="Ex: Prunelle" required>
+        </div>
+
+        <div class="form-group">
+          <label>Que voulez-vous faire ?</label>
+          <input type="text" id="inputActivity" class="form-control" placeholder="Ex: Manger, Boire un verre..." required>
+        </div>
+
+        <div class="form-group">
+          <label>Lieu / Adresse</label>
+          <input type="text" id="inputPlace" class="form-control" placeholder="Ex: Yopougon académie" required>
+        </div>
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="text" id="inputDate" class="form-control" placeholder="Ex: Mardi 1 septembre" required>
+        </div>
+
+        <div class="form-group">
+          <label>Heure</label>
+          <input type="text" id="inputTime" class="form-control" placeholder="Ex: 11:00" required>
+        </div>
+
+        <div class="form-group">
+          <label>Ton petit mot sur la carte</label>
+          <input type="text" id="inputNote" class="form-control" placeholder="Ex: Habille-toi bien, je passe te chercher.">
+        </div>
+
+        <button type="submit" class="btn-primary">Créer mon invitation gratuite</button>
+      </form>
+
+      <div id="linkResult" class="link-result">
+        <p style="font-size: 12px; color: var(--text-dark); margin-bottom: 10px; font-weight: 600;">✨ Ton invitation est prête !</p>
+        <input type="text" id="shareUrl" class="form-control" readonly style="margin-bottom: 10px; font-size: 11px;">
+        <button class="btn-primary" onclick="copyLink()">Copier le lien</button>
+        <button class="btn-secondary" style="width: 100%; margin-top: 8px;" onclick="testInvitation()">Voir l'invitation</button>
+      </div>
+    </div>
+
+    <div id="envelope-view" class="view-section card">
+      <div class="envelope-box" onclick="openEnvelope()">
+        <div class="envelope">
+          <div class="envelope-seal">♥</div>
+        </div>
+        <div class="subtitle-tag" style="margin-bottom: 0;">TOUCHE LA LETTRE</div>
+      </div>
+    </div>
+
+    <div id="question-view" class="view-section card">
+      <div class="subtitle-tag" id="recipientTag">POUR TOI</div>
+      <h1 class="title">Ça te dit un date avec moi ?</h1>
+      <p class="description">(dire non ne sert à rien, mais tu peux essayer)</p>
+
+      <div class="btn-group" id="btnContainer">
+        <button class="btn-yes" onclick="showPlanView()">Oui</button>
+        <button class="btn-no" id="noBtn" onmouseover="dodgeNoButton()" onclick="dodgeNoButton()">Non</button>
+      </div>
+
+      <div class="funny-text" id="funnyText"></div>
+    </div>
+
+    <div id="plan-view" class="view-section card">
+      <div class="subtitle-tag">PARFAIT</div>
+      <h1 class="title">Voilà le plan</h1>
+      
+      <div class="plan-box">
+        <div class="plan-item" style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--primary-color); font-weight: 600;" id="displayActivity">Manger</div>
+        <div class="plan-item" style="color: #666;" id="displayPlace">Yopougon académie</div>
+        <div class="subtitle-tag" style="margin-top: 15px;" id="displayDateTime">MARDI 1 SEPTEMBRE — 11:00</div>
+        <div class="plan-item" style="font-style: italic; margin-top: 10px; font-size: 13px; color: #777;" id="displayNote"></div>
+      </div>
+
+      <div class="form-group">
+        <label>UN MOT POUR MOI (FACULTATIF)</label>
+        <input type="text" id="replyNote" class="form-control" placeholder="...">
+      </div>
+
+      <button class="btn-primary" onclick="confirmFinal()">CONFIRMER</button>
+    </div>
+
+    <div id="final-view" class="view-section card">
+      <div style="font-size: 30px; color: var(--primary-color); margin-bottom: 10px;">♥</div>
+      <div class="subtitle-tag">C'EST NOTÉ</div>
+      <h1 class="title" id="finalTitle">C'est un rendez-vous !</h1>
+      <p class="description" style="margin-top: 10px;">J'ai déjà hâte de s'y retrouver.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // MESSAGES DU BOUTON NON FUYANT (de la vidéo)
+    const funnyMessages = [
+      "Tu es sûr·e...",
+      "Ça ne sert à rien de dire non...",
+      "Le bouton est fatigué, laisse-le tranquille.",
+      "Il s'enfuit. Comme tes excuses.",
+      "Sérieusement. Clique sur Oui."
+    ];
+    let msgIndex = 0;
+
+    // DONNÉES PAR DÉFAUT
+    let inviteData = {
+      to: "PRUNELLE",
+      activity: "Manger",
+      place: "Yopougon académie",
+      date: "Mardi 1 septembre",
+      time: "11:00",
+      note: "Habille-toi bien, je passe te chercher."
+    };
+
+    // VÉRIFICATION DE L'URL AU CHARGEMENT
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('to')) {
+        inviteData.to = params.get('to');
+        inviteData.activity = params.get('act') || inviteData.activity;
+        inviteData.place = params.get('place') || inviteData.place;
+        inviteData.date = params.get('date') || inviteData.date;
+        inviteData.time = params.get('time') || inviteData.time;
+        inviteData.note = params.get('note') || '';
+
+        // Afficher directement l'enveloppe pour le destinataire
+        switchView('envelope-view');
+      }
+    };
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+    }
+
+    // GÉNÉRER LE LIEN UNIQUE SANS PAIEMENT
+    function generateLink(e) {
+      e.preventDefault();
+      const to = document.getElementById('inputTo').value.trim();
+      const activity = document.getElementById('inputActivity').value.trim();
+      const place = document.getElementById('inputPlace').value.trim();
+      const date = document.getElementById('inputDate').value.trim();
+      const time = document.getElementById('inputTime').value.trim();
+      const note = document.getElementById('inputNote').value.trim();
+
+      const baseUrl = window.location.href.split('?')[0];
+      const shareUrl = `${baseUrl}?to=${encodeURIComponent(to)}&act=${encodeURIComponent(activity)}&place=${encodeURIComponent(place)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&note=${encodeURIComponent(note)}`;
+
+      document.getElementById('shareUrl').value = shareUrl;
+      document.getElementById('linkResult').style.display = 'block';
+
+      // Mise à jour de nos données locales pour le test
+      inviteData = { to, activity, place, date, time, note };
+    }
+
+    function copyLink() {
+      const urlInput = document.getElementById('shareUrl');
+      urlInput.select();
+      document.execCommand('copy');
+      alert('Lien copié ! Envoie-le directement à ton destinataire.');
+    }
+
+    function testInvitation() {
+      setupInvitationViews();
+      switchView('envelope-view');
+    }
+
+    function setupInvitationViews() {
+      document.getElementById('recipientTag').innerText = `POUR TOI, ${inviteData.to.toUpperCase()} ❤️`;
+      document.getElementById('displayActivity').innerText = inviteData.activity;
+      document.getElementById('displayPlace').innerText = inviteData.place;
+      document.getElementById('displayDateTime').innerText = `${inviteData.date.toUpperCase()} — ${inviteData.time}`;
+      document.getElementById('displayNote').innerText = inviteData.note ? `« ${inviteData.note} »` : '';
+    }
+
+    function openEnvelope() {
+      setupInvitationViews();
+      switchView('question-view');
+    }
+
+    // ANIMATION ET DÉPLACEMENT DU BOUTON "NON"
+    function dodgeNoButton() {
+      const btn = document.getElementById('noBtn');
+      const container = document.getElementById('btnContainer');
+
+      const maxMoveX = container.clientWidth / 2 - 30;
+      const randomX = (Math.random() * maxMoveX * 2) - maxMoveX;
+      const randomY = (Math.random() * 60) - 30;
+
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      document.getElementById('funnyText').innerText = funnyMessages[msgIndex % funnyMessages.length];
+      msgIndex++;
+    }
+
+    function showPlanView() {
+      switchView('plan-view');
+    }
+
+    function confirmFinal() {
+      switchView('final-view');
+    }
+  </script>
+</body>
+</html>
